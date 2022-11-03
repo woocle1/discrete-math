@@ -1,9 +1,8 @@
-# m = [ [1, 1, 1, 1, 0], [1, 0, 1, 1, 1], [1, 1, 0, 1, 1], [1, 1, 1, 0, 0], [0, 1, 1, 1, 1] ]
-m = [ [0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [1, 1, 0, 1, 1, 1], [0, 1, 0, 0, 0, 0], [0, 1, 0, 1, 0, 1], [0, 1, 0, 1, 0, 0] ]
-# m = [ [0, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
-# m = [ [1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [0, 0, 0, 1, 1], [1, 0, 0, 1, 0], [0, 0, 0, 0, 0] ]
+import numpy as np
+m = [[1, 1, 1, 1, 0], [1, 0, 1, 1, 1], [1, 1, 0, 1, 1], [1, 1, 1, 0, 0], [0, 1, 1, 1, 1]]
 
 
+print('Завдання 1')
 def checkReflective(m):
     reflective = True
     for i in range(len(m)):
@@ -128,3 +127,80 @@ if resultStrictOrder == 3:
     print('relation is strict order')
 else:
     print('relation is not strict order')
+
+print()
+
+
+print('Завдання 2')
+def reflectiveClosure(m):
+    m1 = m
+    for i in range(len(m1)):
+        m1[i][i] = 1
+
+    return m1
+
+print('reflective сlosure')
+print(reflectiveClosure(m))
+
+
+def symmetricalClosure(m):
+    m1 = m
+    for i in range(len(m1)):
+        for j in range(len(m1)):
+            if not i == j:
+                if m1[i][j] == 1:
+                    m1[j][i] = 1
+
+    return m1
+
+print('symmetrical closure')
+print(symmetricalClosure(m))
+
+
+def transitiveClosure(m):
+    m1 = m
+    for i in range(len(m1)):
+        for j in range(len(m1)):
+            if not i == j:
+                if m1[i][j] == 1:
+                    for k in range(len(m1)):
+                        m1[i][k] = m1[i][k] | m1[j][k]
+
+    return m1
+
+print('transitive closure')
+print(transitiveClosure(m))
+
+print()
+
+
+print('Завдання 3')
+def getComposition(r1, r2):
+    length = len(r1)
+    r = np.zeros((length, length))
+    for a in range(length):
+        for b in range(length):
+            for c in range(length):
+                if (r1[a][c] == 1) & (r2[c][b] == 1):
+                    r[a][b] = 1
+                    break
+
+    return r
+
+r1 = [
+    [1,1,1,1,0],
+    [1,0,1,1,1],
+    [1,1,0,0,1],
+    [1,1,1,0,0],
+    [0,1,1,1,1]
+]
+
+r2 = getComposition(r1, r1)
+
+r3 = getComposition(r2, r1)
+
+print('2 degree of the given relation')
+print(r2)
+print('3 degree of the given relation')
+print(r3)
+print()
